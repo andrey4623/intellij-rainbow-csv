@@ -1,0 +1,20 @@
+{
+  parserClass="com.andrey4623.rainbowcsv.parser.CsvParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Csv"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.andrey4623.rainbowcsv"
+  psiImplPackage="com.andrey4623.rainbowcsv.impl"
+
+  elementTypeHolderClass="com.andrey4623.rainbowcsv.CsvTypes"
+  elementTypeClass="com.andrey4623.rainbowcsv.CsvElementType"
+  tokenTypeClass="com.andrey4623.rainbowcsv.CsvTokenType"
+}
+
+csvFile ::= item_*
+
+private item_ ::= (line|CRLF)
+
+line ::= KEY
