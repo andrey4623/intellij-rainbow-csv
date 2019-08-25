@@ -54,7 +54,7 @@ public class CsvFileAnnotator implements Annotator {
         return new TextAttributes(color, null, null, null, 0);
     }
 
-    private static final Pattern PATTERN = Pattern.compile("(,|\\r?\\n|^)([^\",\\r\\n]+|\"(?:[^\"]|\"\")*\")?");
+    private static final Pattern PATTERN = Pattern.compile("(,\\s*|\\r?\\n|^)([^\",\\r\\n]+|\"(?:[^\"]|\"\")*\")?");
 
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
