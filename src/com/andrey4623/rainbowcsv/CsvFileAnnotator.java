@@ -86,7 +86,7 @@ public class CsvFileAnnotator implements Annotator {
             newLineLength = 0;
         }
 
-        final String[] lines = text.split("\\r?\\n");
+        final String[] lines = getLines(text);
 
         int offset = 0;
         for (String line : lines) {
@@ -121,6 +121,39 @@ public class CsvFileAnnotator implements Annotator {
         }
 
         return result;
+    }
+
+    private static String[] getLines(String text) {
+        List<String> result = new ArrayList<>();
+
+        StringBuilder sb = new StringBuilder();
+
+        boolean inside = false;
+        for (char c : text.toCharArray()) {
+            if (c == '\r') {
+                continue;
+            }
+
+            if (c == '\n') {
+                if (!inside) {
+                    result.add(sb.toString());
+                    sb.setLength(0);
+                    continue;
+                }
+            }
+
+            if (c == '"') {
+                inside = !inside;
+            }
+
+            sb.append(c);
+        }
+
+        if (sb.length() > 0) {
+            result.add(sb.toString());
+        }
+
+        return result.toArray(new String[0]);
     }
 
     private static boolean isNullOrEmpty(String value) {
