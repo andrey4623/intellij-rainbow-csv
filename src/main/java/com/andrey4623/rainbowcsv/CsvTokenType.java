@@ -13,5 +13,4 @@ public class CsvTokenType extends IElementType {
     public String toString() {
         return "CsvTokenType." + super.toString();
     }
-
 }

@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.andrey4623.rainbowcsv</id>
   <name>Rainbow CSV</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="andreyka4623@gmail.com" url="https://github.com/andrey4623">Andrey Kolchanov</vendor>
 
   <description><![CDATA[
@@ -9,12 +9,13 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    <p>1.2: Fix #1: process an empty column.</p>
     <p>1.1: Bug fixes.</p>
     <p>1.0: This is the initial release of the plugin.</p>
     ]]>
   </change-notes>
 
-  <idea-version since-build="173.0"/>
+  <idea-version since-build="192.0"/>
 
   <depends>com.intellij.modules.lang</depends>
 
