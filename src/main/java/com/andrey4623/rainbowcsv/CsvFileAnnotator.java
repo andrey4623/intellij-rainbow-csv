@@ -2,7 +2,6 @@ package com.andrey4623.rainbowcsv;
 
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -27,21 +26,9 @@ public class CsvFileAnnotator implements Annotator {
             JBColor.CYAN
     );
 
-    private static final List<TextAttributesKey> TEXT_ATTRIBUTES_KEYS = COLORS.stream()
-            .map(CsvFileAnnotator::createTextAttributesKey)
+    private static final List<TextAttributes> TEXT_ATTRIBUTES = COLORS.stream()
+            .map(CsvFileAnnotator::getTextAttributes)
             .collect(Collectors.toList());
-
-    private static TextAttributesKey createTextAttributesKey(Color color) {
-        return TextAttributesKey.createTextAttributesKey(
-                getExternalName(color),
-                getTextAttributes(color)
-        );
-    }
-
-    @NotNull
-    private static String getExternalName(Color color) {
-        return "COLOR" + color.toString();
-    }
 
     @NotNull
     private static TextAttributes getTextAttributes(Color color) {
@@ -57,13 +44,12 @@ public class CsvFileAnnotator implements Annotator {
                 for (List<CsvTokenParser.TextRange> line : lines) {
                     for (int i = 0; i < line.size(); i++) {
                         final CsvTokenParser.TextRange textRange = line.get(i);
-                        final int color = i % TEXT_ATTRIBUTES_KEYS.size();
-
-                        TextAttributesKey key = TEXT_ATTRIBUTES_KEYS.get(color);
+                        final int color = i % TEXT_ATTRIBUTES.size();
+                        final TextAttributes textAttributes = TEXT_ATTRIBUTES.get(color);
 
                         if (textRange.isHighlight()) {
                             holder.createInfoAnnotation(convertTextRange(textRange), null)
-                                    .setTextAttributes(key);
+                                    .setEnforcedTextAttributes(textAttributes);
                         }
                     }
                 }
