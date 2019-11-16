@@ -3,8 +3,8 @@ import org.jetbrains.grammarkit.tasks.GenerateParser
 
 plugins {
     java
-    id("org.jetbrains.intellij") version "0.4.10"
-    id("org.jetbrains.grammarkit") version "2019.2.1"
+    id("org.jetbrains.intellij") version "0.4.13"
+    id("org.jetbrains.grammarkit") version "2019.2.2"
 }
 
 intellij {
@@ -41,8 +41,8 @@ repositories {
 
 dependencies {
     compile("org.junit.platform:junit-platform-gradle-plugin:1.2.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
 
 tasks.test {
