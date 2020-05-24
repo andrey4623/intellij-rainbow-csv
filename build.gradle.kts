@@ -3,7 +3,7 @@ import org.jetbrains.grammarkit.tasks.GenerateParser
 
 plugins {
     java
-    id("org.jetbrains.intellij") version "0.4.18"
+    id("org.jetbrains.intellij") version "0.4.21"
     id("org.jetbrains.grammarkit") version "2020.1"
 }
 
