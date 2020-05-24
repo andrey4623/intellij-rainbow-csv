@@ -28,6 +28,8 @@
 
     <fileType name="CSV file" implementationClass="com.andrey4623.rainbowcsv.CsvFileType" fieldName="INSTANCE"
               language="CSV" extensions="csv" />
+
+    <fileTypeOverrider implementation="com.andrey4623.rainbowcsv.CsvFileTypeOverrider" />
   </extensions>
 
 </idea-plugin>
