@@ -1,5 +1,6 @@
 package com.andrey4623.rainbowcsv;
 
+import com.andrey4623.rainbowcsv.settings.CsvSettings;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.editor.markup.TextAttributes;
@@ -38,6 +39,9 @@ public class CsvFileAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
         if (element instanceof CsvFile) {
+            if (!isEnabled()) {
+                return;
+            }
             final String csvFileContent = element.getText();
             if (csvFileContent != null) {
                 List<List<CsvTokenParser.TextRange>> lines = CsvTokenParser.parseCsv(csvFileContent);
@@ -55,6 +59,10 @@ public class CsvFileAnnotator implements Annotator {
                 }
             }
         }
+    }
+
+    private static boolean isEnabled() {
+        return CsvSettings.getInstance().isEnabled();
     }
 
     private static TextRange convertTextRange(CsvTokenParser.TextRange textRange) {

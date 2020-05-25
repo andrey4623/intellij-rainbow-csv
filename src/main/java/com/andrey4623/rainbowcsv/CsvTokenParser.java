@@ -1,5 +1,7 @@
 package com.andrey4623.rainbowcsv;
 
+import com.andrey4623.rainbowcsv.settings.CsvSettings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,11 +9,11 @@ import java.util.Objects;
 
 public class CsvTokenParser {
 
-    private static final char COMMA = ',';
-    private static final char QUOTE = '"';
-
     public static List<List<TextRange>> parseCsv(String text) {
         List<List<TextRange>> result = new ArrayList<>();
+
+        final char delimiter = getDelimiter();
+        final char escapeCharacter = getEscapeCharacter();
 
         final int newLineLength;
         if (text.contains("\r\n")) {
@@ -37,7 +39,7 @@ public class CsvTokenParser {
             for (int i = 0; i < line.length(); i++) {
                 final char c = line.charAt(i);
 
-                if (c == QUOTE) {
+                if (c == escapeCharacter) {
                     inside = !inside;
                 }
 
@@ -46,7 +48,7 @@ public class CsvTokenParser {
                     newToken = false;
                 }
 
-                if (!inside && c == COMMA) {
+                if (!inside && c == delimiter) {
                     textRanges.add(new TextRange(offset + left, offset + i, i != left));
                     newToken = true;
                 }
@@ -69,6 +71,8 @@ public class CsvTokenParser {
     private static List<String> getLines(String text) {
         List<String> result = new ArrayList<>();
 
+        final char escapeCharacter = getEscapeCharacter();
+
         StringBuilder sb = new StringBuilder();
 
         boolean inside = false;
@@ -85,7 +89,7 @@ public class CsvTokenParser {
                 continue;
             }
 
-            if (c == QUOTE) {
+            if (c == escapeCharacter) {
                 inside = !inside;
             }
 
@@ -97,6 +101,14 @@ public class CsvTokenParser {
         }
 
         return result;
+    }
+
+    private static char getDelimiter() {
+        return CsvSettings.getInstance().getDelimiter().getDelimiter();
+    }
+
+    private static char getEscapeCharacter() {
+        return CsvSettings.getInstance().getEscapeCharacter().getEscapeCharacter();
     }
 
     public static class TextRange {
