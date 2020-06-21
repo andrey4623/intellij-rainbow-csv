@@ -3,6 +3,7 @@
 Plugin for highlighting CSV files in different colors for IntelliJ based IDEs.
 
 <p>
+<a href="https://circleci.com/gh/andrey4623/intellij-rainbow-csv"><img src="https://img.shields.io/circleci/project/github/andrey4623/intellij-rainbow-csv/master.svg?style=flat-square"></a>
 <a href="https://plugins.jetbrains.com/plugin/12896-rainbow-csv"><img src="https://img.shields.io/jetbrains/plugin/d/12896-rainbow-csv.svg?style=flat-square"></a>
 <a href="https://plugins.jetbrains.com/plugin/12896-rainbow-csv"><img src="https://img.shields.io/jetbrains/plugin/v/12896-rainbow-csv.svg?style=flat-square"></a>
 <a href="https://github.com/andrey4623/intellij-rainbow-csv/"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square"></a>
