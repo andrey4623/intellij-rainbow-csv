@@ -19,24 +19,24 @@ class CsvTokenParserTest {
     void testParseCsv() {
         List<List<CsvTokenParser.TextRange>> expected = Arrays.asList(
                 Arrays.asList(
-                        new CsvTokenParser.TextRange(0, 2, true),
-                        new CsvTokenParser.TextRange(3, 3, false),
-                        new CsvTokenParser.TextRange(4, 5, true),
-                        new CsvTokenParser.TextRange(6, 11, true),
-                        new CsvTokenParser.TextRange(12, 19, true),
-                        new CsvTokenParser.TextRange(20, 30, true),
-                        new CsvTokenParser.TextRange(31, 34, true),
-                        new CsvTokenParser.TextRange(35, 35, true)
+                        new CsvTokenParser.TextRange(0, 2, true, false),
+                        new CsvTokenParser.TextRange(3, 3, false, false),
+                        new CsvTokenParser.TextRange(4, 5, true, false),
+                        new CsvTokenParser.TextRange(6, 11, true, false),
+                        new CsvTokenParser.TextRange(12, 19, true, false),
+                        new CsvTokenParser.TextRange(20, 30, true, false),
+                        new CsvTokenParser.TextRange(31, 34, true, false),
+                        new CsvTokenParser.TextRange(35, 35, true, false)
                 ),
                 Arrays.asList(
-                        new CsvTokenParser.TextRange(36, 40, true),
-                        new CsvTokenParser.TextRange(41, 45, true),
-                        new CsvTokenParser.TextRange(46, 53, true),
-                        new CsvTokenParser.TextRange(54, 57, true),
-                        new CsvTokenParser.TextRange(58, 61, true)
+                        new CsvTokenParser.TextRange(36, 40, true, false),
+                        new CsvTokenParser.TextRange(41, 45, true, false),
+                        new CsvTokenParser.TextRange(46, 53, true, false),
+                        new CsvTokenParser.TextRange(54, 57, true, false),
+                        new CsvTokenParser.TextRange(58, 61, true, false)
                 ),
                 Arrays.asList(
-                        new CsvTokenParser.TextRange(64, 67, true)
+                        new CsvTokenParser.TextRange(64, 67, true, false)
                 )
         );
 

@@ -16,6 +16,10 @@ public class CsvSettingsData {
     @OptionTag(converter = EscapeCharacterConverter.class)
     public EscapeCharacter escapeCharacter = EscapeCharacter.DOUBLE_QUOTE;
 
+    public boolean highlightComments = false;
+
+    public String commentPrefix = "";
+
     public CsvSettingsData() {
     }
 }

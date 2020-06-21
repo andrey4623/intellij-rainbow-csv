@@ -14,6 +14,8 @@ public class CsvTokenParser {
 
         final char delimiter = getDelimiter();
         final char escapeCharacter = getEscapeCharacter();
+        final boolean highlightComments = isHighlightComments();
+        final String commentPrefix = getCommentPrefix();
 
         final int newLineLength;
         if (text.contains("\r\n")) {
@@ -28,6 +30,17 @@ public class CsvTokenParser {
         for (String line : lines) {
             if (line.isEmpty()) {
                 offset += newLineLength;
+                continue;
+            }
+
+            if (highlightComments && line.startsWith(commentPrefix)) {
+                List<TextRange> textRanges = new ArrayList<>();
+                textRanges.add(new TextRange(offset, offset + line.length(), true, true));
+
+                result.add(Collections.unmodifiableList(textRanges));
+
+                offset = offset + line.length() + newLineLength;
+
                 continue;
             }
 
@@ -49,7 +62,7 @@ public class CsvTokenParser {
                 }
 
                 if (!inside && c == delimiter) {
-                    textRanges.add(new TextRange(offset + left, offset + i, i != left));
+                    textRanges.add(new TextRange(offset + left, offset + i, i != left, false));
                     newToken = true;
                 }
             }
@@ -58,7 +71,7 @@ public class CsvTokenParser {
                 left = line.length();
             }
 
-            textRanges.add(new TextRange(offset + left, offset + line.length(), true));
+            textRanges.add(new TextRange(offset + left, offset + line.length(), true, false));
 
             result.add(Collections.unmodifiableList(textRanges));
 
@@ -111,15 +124,25 @@ public class CsvTokenParser {
         return CsvSettings.getInstance().getEscapeCharacter().getEscapeCharacter();
     }
 
+    private static boolean isHighlightComments() {
+        return CsvSettings.getInstance().isHighlightComments();
+    }
+
+    private static String getCommentPrefix() {
+        return CsvSettings.getInstance().getCommentPrefix();
+    }
+
     public static class TextRange {
         private final int startOffset;
         private final int endOffset;
         private final boolean highlight;
+        private final boolean comment;
 
-        public TextRange(int startOffset, int endOffset, boolean highlight) {
+        public TextRange(int startOffset, int endOffset, boolean highlight, boolean comment) {
             this.startOffset = startOffset;
             this.endOffset = endOffset;
             this.highlight = highlight;
+            this.comment = comment;
         }
 
         public int getStartOffset() {
@@ -134,6 +157,10 @@ public class CsvTokenParser {
             return highlight;
         }
 
+        public boolean isComment() {
+            return comment;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -141,12 +168,13 @@ public class CsvTokenParser {
             TextRange textRange = (TextRange) o;
             return startOffset == textRange.startOffset &&
                     endOffset == textRange.endOffset &&
-                    highlight == textRange.highlight;
+                    highlight == textRange.highlight &&
+                    comment == textRange.comment;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(startOffset, endOffset, highlight);
+            return Objects.hash(startOffset, endOffset, highlight, comment);
         }
     }
 }

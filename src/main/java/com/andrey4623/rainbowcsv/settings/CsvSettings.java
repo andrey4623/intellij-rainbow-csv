@@ -2,6 +2,7 @@ package com.andrey4623.rainbowcsv.settings;
 
 import com.andrey4623.rainbowcsv.Delimiter;
 import com.andrey4623.rainbowcsv.EscapeCharacter;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -34,11 +35,16 @@ public class CsvSettings implements PersistentStateComponent<CsvSettingsData> {
     }
 
     public static CsvSettings getInstance() {
-        CsvSettings service = ServiceManager.getService(CsvSettings.class);
-        if (service != null) {
-            return service;
+        if (ApplicationManager.getApplication() == null) {
+            return csvSettingsComponent;
         }
-        return csvSettingsComponent;
+
+        CsvSettings service = ServiceManager.getService(CsvSettings.class);
+        if (service == null) {
+            return csvSettingsComponent;
+        }
+
+        return service;
     }
 
     public void setEnabled(boolean enabled) {
@@ -71,5 +77,21 @@ public class CsvSettings implements PersistentStateComponent<CsvSettingsData> {
 
     public EscapeCharacter getEscapeCharacter() {
         return getState().escapeCharacter;
+    }
+
+    public void setHighlightComments(boolean enabled) {
+        getState().highlightComments = enabled;
+    }
+
+    public boolean isHighlightComments() {
+        return getState().highlightComments;
+    }
+
+    public void setCommentPrefix(String commentPrefix) {
+        getState().commentPrefix = commentPrefix;
+    }
+
+    public String getCommentPrefix() {
+        return getState().commentPrefix;
     }
 }

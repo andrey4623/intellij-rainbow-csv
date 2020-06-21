@@ -22,6 +22,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,8 @@ public class Settings implements EditorOptionsProvider {
     private JCheckBox rainbowCSVEnabledCheckBox;
     private JComboBox delimiterComboBox;
     private JComboBox escapeCharacterComboBox;
+    private JTextField commentPrefixTextField;
+    private JCheckBox highlightCommentsCheckBox;
 
     @Override
     public @NotNull String getId() {
@@ -54,7 +57,9 @@ public class Settings implements EditorOptionsProvider {
 
         return this.rainbowCSVEnabledCheckBox.isSelected() != settings.isEnabled()
                 || !settings.getDelimiter().equals(this.delimiterComboBox.getSelectedItem())
-                || !settings.getEscapeCharacter().equals(this.escapeCharacterComboBox.getSelectedItem());
+                || !settings.getEscapeCharacter().equals(this.escapeCharacterComboBox.getSelectedItem())
+                || settings.isHighlightComments() != this.highlightCommentsCheckBox.isSelected()
+                || !settings.getCommentPrefix().equals(this.commentPrefixTextField.getText());
     }
 
     @Override
@@ -63,6 +68,8 @@ public class Settings implements EditorOptionsProvider {
         settings.setEnabled(rainbowCSVEnabledCheckBox.isSelected());
         settings.setDelimiter((Delimiter) delimiterComboBox.getSelectedItem());
         settings.setEscapeCharacter((EscapeCharacter) escapeCharacterComboBox.getSelectedItem());
+        settings.setHighlightComments(highlightCommentsCheckBox.isSelected());
+        settings.setCommentPrefix(commentPrefixTextField.getText());
 
         reparseFiles();
     }
@@ -98,12 +105,14 @@ public class Settings implements EditorOptionsProvider {
         rainbowCSVEnabledCheckBox.setSelected(settings.isEnabled());
         delimiterComboBox.setSelectedItem(settings.getDelimiter());
         escapeCharacterComboBox.setSelectedItem(settings.getEscapeCharacter());
+        highlightCommentsCheckBox.setSelected(settings.isHighlightComments());
+        commentPrefixTextField.setText(settings.getCommentPrefix());
     }
 
     protected void createUIComponents() {
         delimiterComboBox = new ComboBox(Delimiter.values());
-        delimiterComboBox.setRenderer(new CustomListCellRenderer<Delimiter>(t -> t.getName()));
+        delimiterComboBox.setRenderer(new CustomListCellRenderer<>(Delimiter::getName));
         escapeCharacterComboBox = new ComboBox(EscapeCharacter.values());
-        escapeCharacterComboBox.setRenderer(new CustomListCellRenderer<EscapeCharacter>(t -> t.getName()));
+        escapeCharacterComboBox.setRenderer(new CustomListCellRenderer<>(EscapeCharacter::getName));
     }
 }

@@ -1,0 +1,58 @@
+<?xml version='1.0'?>
+<list>
+    <option name="RAINBOW_CSV_COLOR_0">
+        <value>
+            <option name="FOREGROUND" value="1976D2" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_1">
+        <value>
+            <option name="FOREGROUND" value="E65100" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_2">
+        <value>
+            <option name="FOREGROUND" value="00C853" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_3">
+        <value>
+            <option name="FOREGROUND" value="B388FF" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_4">
+        <value>
+            <option name="FOREGROUND" value="F9A825" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_5">
+        <value>
+            <option name="FOREGROUND" value="1B5E20" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_6">
+        <value>
+            <option name="FOREGROUND" value="FF5722" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_7">
+        <value>
+            <option name="FOREGROUND" value="5E35B1" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_8">
+        <value>
+            <option name="FOREGROUND" value="1976D2" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_9">
+        <value>
+            <option name="FOREGROUND" value="827717" />
+        </value>
+    </option>
+    <option name="RAINBOW_CSV_COLOR_COMMENT">
+        <value>
+            <option name="FOREGROUND" value="424242" />
+        </value>
+    </option>
+</list>
