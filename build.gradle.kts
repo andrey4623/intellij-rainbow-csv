@@ -4,7 +4,7 @@ import org.jetbrains.grammarkit.tasks.GenerateParser
 plugins {
     java
     id("org.jetbrains.intellij") version "0.4.21"
-    id("org.jetbrains.grammarkit") version "2020.1"
+    id("org.jetbrains.grammarkit") version "2020.2.1"
 }
 
 intellij {
