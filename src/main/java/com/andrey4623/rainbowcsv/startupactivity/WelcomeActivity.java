@@ -39,7 +39,7 @@ public class WelcomeActivity implements StartupActivity {
         Notification notification = notificationGroup.createNotification(
                 "Rainbow CSV",
                 "You can edit Rainbow CSV settings in " +
-                        "<a href=\"#\">Settings > Editor > General > Rainbow CSV Settings</a>",
+                        "<a href=\"#\">Settings > Editor > General > Rainbow CSV</a>",
                 NotificationType.INFORMATION,
                 notificationListener
         );
