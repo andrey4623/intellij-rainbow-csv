@@ -1,10 +1,9 @@
 package com.andrey4623.rainbowcsv.startupactivity;
 
-import com.andrey4623.rainbowcsv.settings.CsvSettings;
 import com.andrey4623.rainbowcsv.RainbowCsvHelper;
+import com.andrey4623.rainbowcsv.settings.CsvSettings;
 import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationDisplayType;
-import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationListener;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -17,15 +16,13 @@ import javax.swing.event.HyperlinkEvent;
 
 public class WelcomeActivity implements StartupActivity {
 
+    private static final String NOTIFICATION_GROUP_ID = "RainbowCSV";
+
     @Override
     public void runActivity(@NotNull Project project) {
         if (CsvSettings.getInstance().isWelcomeNotifyShowed()) {
             return;
         }
-
-        NotificationGroup notificationGroup = new NotificationGroup(
-                "RainbowCSV", NotificationDisplayType.STICKY_BALLOON, true
-        );
 
         NotificationListener.Adapter notificationListener = new NotificationListener.Adapter() {
             @Override
@@ -36,13 +33,15 @@ public class WelcomeActivity implements StartupActivity {
             }
         };
 
-        Notification notification = notificationGroup.createNotification(
-                "Rainbow CSV",
-                "You can edit Rainbow CSV settings in " +
-                        "<a href=\"#\">Settings > Editor > General > Rainbow CSV</a>",
-                NotificationType.INFORMATION,
-                notificationListener
-        );
+        Notification notification = NotificationGroupManager.getInstance()
+                .getNotificationGroup(NOTIFICATION_GROUP_ID)
+                .createNotification(
+                        "Rainbow CSV",
+                        "You can edit Rainbow CSV settings in " +
+                                "<a href=\"#\">Settings > Editor > General > Rainbow CSV</a>",
+                        NotificationType.INFORMATION,
+                        notificationListener
+                );
 
         Notifications.Bus.notify(notification);
         CsvSettings.getInstance().setWelcomeNotifyShowed(true);

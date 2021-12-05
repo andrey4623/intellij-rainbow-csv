@@ -61,6 +61,8 @@
     <additionalTextAttributes scheme="Default" file="colorSchemes/rainbow-csv-color-default.xml" />
 
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/rainbow-csv-color-default-darcula.xml" />
+
+    <notificationGroup id="RainbowCSV" displayType="STICKY_BALLOON" isLogByDefault="true"/>
   </extensions>
 
 </idea-plugin>
