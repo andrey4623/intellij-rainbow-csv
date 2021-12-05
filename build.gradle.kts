@@ -1,16 +1,16 @@
-import org.jetbrains.grammarkit.tasks.GenerateLexer
-import org.jetbrains.grammarkit.tasks.GenerateParser
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
+import org.jetbrains.grammarkit.tasks.GenerateParserTask
 
 plugins {
     java
-    id("org.jetbrains.intellij") version "0.4.21"
-    id("org.jetbrains.grammarkit") version "2020.2.1"
+    id("org.jetbrains.intellij") version "1.3.0"
+    id("org.jetbrains.grammarkit") version "2021.2.1"
 }
 
 intellij {
-    version = "2020.1"
-    pluginName = "Rainbow CSV"
-    intellij.updateSinceUntilBuild = false
+    version.set("2020.3")
+    pluginName.set("Rainbow CSV")
+    updateSinceUntilBuild.set(false)
 }
 
 allprojects {
@@ -20,8 +20,8 @@ allprojects {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 sourceSets {
@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile("org.junit.platform:junit-platform-gradle-plugin:1.2.0")
+    implementation("org.junit.platform:junit-platform-gradle-plugin:1.2.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
@@ -52,29 +52,18 @@ tasks.test {
     }
 }
 
-val generateParser = task<GenerateParser>("generateParser") {
+val generateParser = tasks.register<GenerateParserTask>("generateParserTask") {
+    source.set("src/main/java/com/andrey4623/rainbowcsv/Csv.bnf")
     group = "build"
-    description = "Generate the Parser"
-    source = "src/main/java/com/andrey4623/rainbowcsv/Csv.bnf"
-    targetRoot = "gen/"
-    pathToParser = "com/andrey4623/rainbowcsv/parser/CsvParser.java"
-    pathToPsiRoot = "com/andrey4623/rainbowcsv"
-    purgeOldFiles = true
+    targetRoot.set("gen/")
+    pathToParser.set("com/andrey4623/rainbowcsv/parser/CsvParser.java")
+    pathToPsiRoot.set("com/andrey4623/rainbowcsv")
 }
 
-val generateLexer = task<GenerateLexer>("generateLexer") {
-    dependsOn(generateParser)
-    group = "build"
-    description = "Generate the Lexer"
-    source = "src/main/java/com/andrey4623/rainbowcsv/Csv.flex"
-    targetDir = "gen/com/andrey4623/rainbowcsv"
-    targetClass = "CsvLexer"
-    purgeOldFiles = true
-}
-
-tasks.withType<JavaCompile> {
-    dependsOn(generateParser)
-    dependsOn(generateLexer)
+val generateLexer = tasks.register<GenerateLexerTask>("generateLexerTask") {
+    source.set("src/main/java/com/andrey4623/rainbowcsv/Csv.flex")
+    targetDir.set("gen/com/andrey4623/rainbowcsv")
+    targetClass.set("CsvLexer")
 }
 
 val cleanGenerated = task("cleanGenerated") {
@@ -83,6 +72,15 @@ val cleanGenerated = task("cleanGenerated") {
     doFirst {
         delete("gen")
     }
+}
+
+tasks.withType<Copy> {
+    setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
+
+tasks.withType<JavaCompile> {
+    dependsOn(generateParser)
+    dependsOn(generateLexer)
 }
 
 tasks.withType<Delete> {
