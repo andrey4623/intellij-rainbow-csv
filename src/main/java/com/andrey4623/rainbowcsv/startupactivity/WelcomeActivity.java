@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.event.HyperlinkEvent;
 
+/**
+ * Welcome activity.
+ */
 public class WelcomeActivity implements StartupActivity {
 
     private static final String NOTIFICATION_GROUP_ID = "RainbowCSV";
@@ -39,9 +42,9 @@ public class WelcomeActivity implements StartupActivity {
                         "Rainbow CSV",
                         "You can edit Rainbow CSV settings in " +
                                 "<a href=\"#\">Settings > Editor > General > Rainbow CSV</a>",
-                        NotificationType.INFORMATION,
-                        notificationListener
+                        NotificationType.INFORMATION
                 );
+        notification.setListener(notificationListener);
 
         Notifications.Bus.notify(notification);
         CsvSettings.getInstance().setWelcomeNotifyShowed(true);

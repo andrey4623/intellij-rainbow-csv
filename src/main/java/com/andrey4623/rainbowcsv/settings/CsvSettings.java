@@ -4,7 +4,6 @@ import com.andrey4623.rainbowcsv.Delimiter;
 import com.andrey4623.rainbowcsv.EscapeCharacter;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +38,7 @@ public class CsvSettings implements PersistentStateComponent<CsvSettingsData> {
             return csvSettingsComponent;
         }
 
-        CsvSettings service = ServiceManager.getService(CsvSettings.class);
+        CsvSettings service = ApplicationManager.getApplication().getService(CsvSettings.class);
         if (service == null) {
             return csvSettingsComponent;
         }

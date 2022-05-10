@@ -3,14 +3,18 @@ import org.jetbrains.grammarkit.tasks.GenerateParserTask
 
 plugins {
     java
-    id("org.jetbrains.intellij") version "1.3.0"
-    id("org.jetbrains.grammarkit") version "2021.2.1"
+    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 intellij {
-    version.set("2020.3")
+    version.set("2022.1")
     pluginName.set("Rainbow CSV")
     updateSinceUntilBuild.set(false)
+}
+
+tasks.runPluginVerifier {
+    ideVersions.add("2022.1")
 }
 
 allprojects {
