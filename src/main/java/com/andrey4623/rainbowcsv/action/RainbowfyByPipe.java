@@ -16,6 +16,7 @@ public class RainbowfyByPipe extends AnAction implements CsvSettingsModifier {
 
         if (currentFile instanceof CsvFile) {
             modifySettingsAndReparse((CsvFile) currentFile, fileCsvSettings -> {
+                fileCsvSettings.setEnabled(true);
                 fileCsvSettings.setDelimiter(Delimiter.PIPE);
             });
         }

@@ -16,6 +16,7 @@ public class RainbowfyBySemicolon extends AnAction implements CsvSettingsModifie
 
         if (currentFile instanceof CsvFile) {
             modifySettingsAndReparse((CsvFile) currentFile, fileCsvSettings -> {
+                fileCsvSettings.setEnabled(true);
                 fileCsvSettings.setDelimiter(Delimiter.SEMICOLON);
             });
         }

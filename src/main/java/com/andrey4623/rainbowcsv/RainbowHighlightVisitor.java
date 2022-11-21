@@ -41,7 +41,7 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
         }
         final CsvSettings fileCsvSettings = ((CsvFile) element).getFileCsvSettings();
 
-        if (!isEnabled()) {
+        if (!isEnabled() || !fileCsvSettings.isEnabled()) {
             return;
         }
 

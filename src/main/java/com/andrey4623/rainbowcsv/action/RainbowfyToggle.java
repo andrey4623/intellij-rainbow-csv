@@ -1,24 +1,21 @@
 package com.andrey4623.rainbowcsv.action;
 
 import com.andrey4623.rainbowcsv.CsvFile;
-import com.andrey4623.rainbowcsv.Delimiter;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-public class RainbowfyByColon extends AnAction implements CsvSettingsModifier {
+public class RainbowfyToggle extends AnAction implements CsvSettingsModifier {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         PsiFile currentFile = e.getData(PlatformDataKeys.PSI_FILE);
 
         if (currentFile instanceof CsvFile) {
-            modifySettingsAndReparse((CsvFile) currentFile, fileCsvSettings -> {
-                fileCsvSettings.setEnabled(true);
-                fileCsvSettings.setDelimiter(Delimiter.COLON);
-            });
+            modifySettingsAndReparse((CsvFile) currentFile, fileCsvSettings ->
+                    fileCsvSettings.setEnabled(!fileCsvSettings.isEnabled()));
         }
     }
 

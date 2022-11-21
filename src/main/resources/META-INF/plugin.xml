@@ -87,6 +87,10 @@
             <action id="RainbowfyByColon"
                     class="com.andrey4623.rainbowcsv.action.RainbowfyByColon"
                     text="By Colon"/>
+
+            <action id="RainbowfyToggle"
+                    class="com.andrey4623.rainbowcsv.action.RainbowfyToggle"
+                    text="Toggle"/>
         </group>
     </actions>
 
