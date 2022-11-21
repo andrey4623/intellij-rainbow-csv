@@ -1,10 +1,10 @@
 <idea-plugin require-restart="true">
-  <id>com.andrey4623.rainbowcsv</id>
-  <name>Rainbow CSV</name>
-  <version>2.0.2</version>
-  <vendor email="andreyka4623@gmail.com" url="https://github.com/andrey4623">Andrey Kolchanov</vendor>
+    <id>com.andrey4623.rainbowcsv</id>
+    <name>Rainbow CSV</name>
+    <version>2.0.2</version>
+    <vendor email="andreyka4623@gmail.com" url="https://github.com/andrey4623">Andrey Kolchanov</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       Plugin for highlighting CSV files in different colors.
       <br /><br />
       <img width="600" src="https://raw.githubusercontent.com/andrey4623/intellij-rainbow-csv/master/screenshots/rainbow_csv.png" />
@@ -22,7 +22,7 @@
       Column colors can be changed in Preferences -> Editor -> Color Scheme -> Rainbow CSV.
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
     <p>2.0.2: 2022.1 Intellij support.</p>
     <p>2.0.1: Small improvements.</p>
     <p>2.0: Supports custom column colors and a custom comment line prefix.</p>
@@ -33,37 +33,61 @@
     <p>1.1: Bug fixes.</p>
     <p>1.0: This is the initial release of the plugin.</p>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <idea-version since-build="221.0"/>
+    <idea-version since-build="221.0"/>
 
-  <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.lang</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <highlightVisitor implementation="com.andrey4623.rainbowcsv.RainbowHighlightVisitor" />
+    <extensions defaultExtensionNs="com.intellij">
+        <highlightVisitor implementation="com.andrey4623.rainbowcsv.RainbowHighlightVisitor"/>
 
-    <lang.parserDefinition language="CSV" implementationClass="com.andrey4623.rainbowcsv.CsvParserDefinition"/>
+        <lang.parserDefinition language="CSV" implementationClass="com.andrey4623.rainbowcsv.CsvParserDefinition"/>
 
-    <fileType name="CSV file" implementationClass="com.andrey4623.rainbowcsv.CsvFileType" fieldName="INSTANCE"
-              language="CSV" extensions="csv" />
+        <fileType name="CSV file" implementationClass="com.andrey4623.rainbowcsv.CsvFileType" fieldName="INSTANCE"
+                  language="CSV" extensions="csv"/>
 
-    <fileTypeOverrider implementation="com.andrey4623.rainbowcsv.CsvFileTypeOverrider" />
+        <fileTypeOverrider implementation="com.andrey4623.rainbowcsv.CsvFileTypeOverrider"/>
 
-    <editorOptionsProvider instance="com.andrey4623.rainbowcsv.settings.Settings" />
+        <editorOptionsProvider instance="com.andrey4623.rainbowcsv.settings.Settings"/>
 
-    <colorAndFontPanelFactory implementation="com.andrey4623.rainbowcsv.settings.RainbowCsvColorAndFontPanelFactory" />
+        <colorAndFontPanelFactory
+                implementation="com.andrey4623.rainbowcsv.settings.RainbowCsvColorAndFontPanelFactory"/>
 
-    <colorAndFontDescriptorProvider implementation="com.andrey4623.rainbowcsv.RainbowColorAndFontDescriptorsProvider" />
+        <colorAndFontDescriptorProvider
+                implementation="com.andrey4623.rainbowcsv.RainbowColorAndFontDescriptorsProvider"/>
 
-    <applicationService serviceImplementation="com.andrey4623.rainbowcsv.settings.CsvSettings" />
+        <applicationService serviceImplementation="com.andrey4623.rainbowcsv.settings.CsvSettings"/>
 
-    <postStartupActivity implementation="com.andrey4623.rainbowcsv.startupactivity.WelcomeActivity" />
+        <postStartupActivity implementation="com.andrey4623.rainbowcsv.startupactivity.WelcomeActivity"/>
 
-    <additionalTextAttributes scheme="Default" file="colorSchemes/rainbow-csv-color-default.xml" />
+        <additionalTextAttributes scheme="Default" file="colorSchemes/rainbow-csv-color-default.xml"/>
 
-    <additionalTextAttributes scheme="Darcula" file="colorSchemes/rainbow-csv-color-default-darcula.xml" />
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/rainbow-csv-color-default-darcula.xml"/>
 
-    <notificationGroup id="RainbowCSV" displayType="STICKY_BALLOON" isLogByDefault="true"/>
-  </extensions>
+        <notificationGroup id="RainbowCSV" displayType="STICKY_BALLOON" isLogByDefault="true"/>
+    </extensions>
+
+    <actions>
+        <group id="RainbowCsvGroup" text="Rainbow CSV" description="Rainbow CSV" popup="true">
+            <add-to-group group-id="EditorTabPopupMenu"/>
+            <add-to-group group-id="EditorPopupMenu"/>
+            <action id="RainbowfyByComma"
+                    class="com.andrey4623.rainbowcsv.action.RainbowfyByComma"
+                    text="By Comma"/>
+            <action id="RainbowfyBySemicolon"
+                    class="com.andrey4623.rainbowcsv.action.RainbowfyBySemicolon"
+                    text="By Semicolon"/>
+            <action id="RainbowfyByPipe"
+                    class="com.andrey4623.rainbowcsv.action.RainbowfyByPipe"
+                    text="By Pipe"/>
+            <action id="RainbowfyByTab"
+                    class="com.andrey4623.rainbowcsv.action.RainbowfyByTab"
+                    text="By Tab"/>
+            <action id="RainbowfyByColon"
+                    class="com.andrey4623.rainbowcsv.action.RainbowfyByColon"
+                    text="By Colon"/>
+        </group>
+    </actions>
 
 </idea-plugin>

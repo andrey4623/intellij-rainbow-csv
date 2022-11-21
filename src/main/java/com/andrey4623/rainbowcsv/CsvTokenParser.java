@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class CsvTokenParser {
+    private static CsvSettings csvSettings;
 
-    public static List<List<TextRange>> parseCsv(String text) {
+    public static List<List<TextRange>> parseCsv(CsvSettings parsingSettings, String text) {
         List<List<TextRange>> result = new ArrayList<>();
 
+        csvSettings = parsingSettings;
         final char delimiter = getDelimiter();
         final char escapeCharacter = getEscapeCharacter();
         final boolean highlightComments = isHighlightComments();
@@ -117,19 +119,19 @@ public class CsvTokenParser {
     }
 
     private static char getDelimiter() {
-        return CsvSettings.getInstance().getDelimiter().getDelimiter();
+        return csvSettings.getDelimiter().getDelimiter();
     }
 
     private static char getEscapeCharacter() {
-        return CsvSettings.getInstance().getEscapeCharacter().getEscapeCharacter();
+        return csvSettings.getEscapeCharacter().getEscapeCharacter();
     }
 
     private static boolean isHighlightComments() {
-        return CsvSettings.getInstance().isHighlightComments();
+        return csvSettings.isHighlightComments();
     }
 
     private static String getCommentPrefix() {
-        return CsvSettings.getInstance().getCommentPrefix();
+        return csvSettings.getCommentPrefix();
     }
 
     public static class TextRange {
