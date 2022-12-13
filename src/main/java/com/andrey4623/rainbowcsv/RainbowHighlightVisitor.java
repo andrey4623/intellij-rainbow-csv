@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -17,28 +18,48 @@ import java.util.List;
 public class RainbowHighlightVisitor implements HighlightVisitor {
 
     private HighlightInfoHolder holder;
-
     private TextAttributes[] columnTextAttributes = new TextAttributes[0];
     private TextAttributes commentLineTextAttributes;
 
+    private static boolean isEnabled() {
+        return CsvSettings.getInstance().isEnabled();
+    }
+
+    private static TextRange convertTextRange(CsvTokenParser.TextRange textRange) {
+        return new TextRange(textRange.getStartOffset(), textRange.getEndOffset());
+    }
+
     @Override
     public boolean suitableForFile(@NotNull PsiFile file) {
-        return CsvFileType.INSTANCE.equals(file.getFileType());
+        return (CsvFileType.INSTANCE.equals(file.getFileType()))
+                || (file.getVirtualFile().getUserData(CsvSettings.CSV_SETTINGS_DATA_KEY) != null);
     }
 
     @Override
     public void visit(@NotNull PsiElement element) {
-        if (!(element instanceof CsvFile)) {
+        if (!(element instanceof PsiFile)) {
             return;
         }
 
-        if (!isEnabled()) {
+        CsvSettings fileCsvSettings = ((PsiFile) element).getVirtualFile().getUserData(CsvSettings.CSV_SETTINGS_DATA_KEY);
+        if (fileCsvSettings == null) {
+            if (element instanceof CsvFile) {
+                // Use default settings if file settings undefined.
+                fileCsvSettings = XmlSerializerUtil.createCopy(CsvSettings.getInstance());
+                ((CsvFile) element).getVirtualFile().putUserData(CsvSettings.CSV_SETTINGS_DATA_KEY, fileCsvSettings);
+            } else {
+                return;
+            }
+        }
+
+        if (!isEnabled() || !fileCsvSettings.isEnabled()) {
             return;
         }
+
 
         final String csvFileContent = element.getText();
         if (csvFileContent != null) {
-            List<List<CsvTokenParser.TextRange>> lines = CsvTokenParser.parseCsv(csvFileContent);
+            List<List<CsvTokenParser.TextRange>> lines = CsvTokenParser.parseCsv(fileCsvSettings, csvFileContent);
             for (List<CsvTokenParser.TextRange> line : lines) {
                 for (int i = 0; i < line.size(); i++) {
                     final CsvTokenParser.TextRange textRange = line.get(i);
@@ -62,14 +83,6 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
                 }
             }
         }
-    }
-
-    private static boolean isEnabled() {
-        return CsvSettings.getInstance().isEnabled();
-    }
-
-    private static TextRange convertTextRange(CsvTokenParser.TextRange textRange) {
-        return new TextRange(textRange.getStartOffset(), textRange.getEndOffset());
     }
 
     @Override

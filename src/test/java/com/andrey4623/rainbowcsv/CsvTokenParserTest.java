@@ -1,5 +1,6 @@
 package com.andrey4623.rainbowcsv;
 
+import com.andrey4623.rainbowcsv.settings.CsvSettings;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -12,7 +13,7 @@ class CsvTokenParserTest {
 
     @Test
     void testEmptyString() {
-        assertEquals(Collections.emptyList(), CsvTokenParser.parseCsv(""));
+        assertEquals(Collections.emptyList(), CsvTokenParser.parseCsv(CsvSettings.getInstance(), ""));
     }
 
     @Test
@@ -40,7 +41,7 @@ class CsvTokenParserTest {
                 )
         );
 
-        List<List<CsvTokenParser.TextRange>> actual = CsvTokenParser.parseCsv("  ,, , abc , \"def\" , \"a\n" +
+        List<List<CsvTokenParser.TextRange>> actual = CsvTokenParser.parseCsv(CsvSettings.getInstance(), "  ,, , abc , \"def\" , \"a\n" +
                 "\n" +
                 "b\n" +
                 "\n" +

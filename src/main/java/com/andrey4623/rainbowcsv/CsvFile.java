@@ -3,10 +3,9 @@ package com.andrey4623.rainbowcsv;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
-
-import javax.swing.Icon;
-
 import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
 
 public class CsvFile extends PsiFileBase {
 
