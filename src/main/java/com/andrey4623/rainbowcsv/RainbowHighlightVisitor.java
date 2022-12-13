@@ -21,6 +21,14 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
     private TextAttributes[] columnTextAttributes = new TextAttributes[0];
     private TextAttributes commentLineTextAttributes;
 
+    private static boolean isEnabled() {
+        return CsvSettings.getInstance().isEnabled();
+    }
+
+    private static TextRange convertTextRange(CsvTokenParser.TextRange textRange) {
+        return new TextRange(textRange.getStartOffset(), textRange.getEndOffset());
+    }
+
     @Override
     public boolean suitableForFile(@NotNull PsiFile file) {
         return CsvFileType.INSTANCE.equals(file.getFileType());
@@ -31,14 +39,15 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
         if (!(element instanceof CsvFile)) {
             return;
         }
+        final CsvSettings fileCsvSettings = ((CsvFile) element).getFileCsvSettings();
 
-        if (!isEnabled()) {
+        if (!isEnabled() || !fileCsvSettings.isEnabled()) {
             return;
         }
 
         final String csvFileContent = element.getText();
         if (csvFileContent != null) {
-            List<List<CsvTokenParser.TextRange>> lines = CsvTokenParser.parseCsv(csvFileContent);
+            List<List<CsvTokenParser.TextRange>> lines = CsvTokenParser.parseCsv(fileCsvSettings, csvFileContent);
             for (List<CsvTokenParser.TextRange> line : lines) {
                 for (int i = 0; i < line.size(); i++) {
                     final CsvTokenParser.TextRange textRange = line.get(i);
@@ -62,14 +71,6 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
                 }
             }
         }
-    }
-
-    private static boolean isEnabled() {
-        return CsvSettings.getInstance().isEnabled();
-    }
-
-    private static TextRange convertTextRange(CsvTokenParser.TextRange textRange) {
-        return new TextRange(textRange.getStartOffset(), textRange.getEndOffset());
     }
 
     @Override
