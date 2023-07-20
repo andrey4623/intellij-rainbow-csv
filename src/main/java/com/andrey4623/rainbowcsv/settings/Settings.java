@@ -36,6 +36,8 @@ public class Settings implements EditorOptionsProvider {
     private JTextField commentPrefixTextField;
     private JCheckBox highlightCommentsCheckBox;
 
+    private JTextField pageLinesInput;
+
     @Override
     public @NotNull String getId() {
         return "RainbowCSV.Settings";
@@ -56,6 +58,7 @@ public class Settings implements EditorOptionsProvider {
         CsvSettings settings = CsvSettings.getInstance();
 
         return this.rainbowCSVEnabledCheckBox.isSelected() != settings.isEnabled()
+                || !settings.getMaxLinesToRender().equals(pageLinesInput.getText())
                 || !settings.getDelimiter().equals(this.delimiterComboBox.getSelectedItem())
                 || !settings.getEscapeCharacter().equals(this.escapeCharacterComboBox.getSelectedItem())
                 || settings.isHighlightComments() != this.highlightCommentsCheckBox.isSelected()
@@ -64,8 +67,17 @@ public class Settings implements EditorOptionsProvider {
 
     @Override
     public void apply() throws ConfigurationException {
+
+        try {
+            Integer.parseInt(pageLinesInput.getText());
+        }
+        catch (NumberFormatException exception) {
+            throw new ConfigurationException("Maximum lines must be an integer");
+        }
+
         CsvSettings settings = CsvSettings.getInstance();
         settings.setEnabled(rainbowCSVEnabledCheckBox.isSelected());
+        settings.setMaxLinesToRender(Integer.parseInt(pageLinesInput.getText()));
         settings.setDelimiter((Delimiter) delimiterComboBox.getSelectedItem());
         settings.setEscapeCharacter((EscapeCharacter) escapeCharacterComboBox.getSelectedItem());
         settings.setHighlightComments(highlightCommentsCheckBox.isSelected());
@@ -103,6 +115,7 @@ public class Settings implements EditorOptionsProvider {
         CsvSettings settings = CsvSettings.getInstance();
 
         rainbowCSVEnabledCheckBox.setSelected(settings.isEnabled());
+        pageLinesInput.setText(String.valueOf(settings.getMaxLinesToRender()));
         delimiterComboBox.setSelectedItem(settings.getDelimiter());
         escapeCharacterComboBox.setSelectedItem(settings.getEscapeCharacter());
         highlightCommentsCheckBox.setSelected(settings.isHighlightComments());
