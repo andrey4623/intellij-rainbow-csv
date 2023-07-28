@@ -19,6 +19,7 @@ public class CsvSettingsData {
     public boolean highlightComments = false;
 
     public String commentPrefix = "";
+    public int maxPageLines = 1000;
 
     public CsvSettingsData() {
     }

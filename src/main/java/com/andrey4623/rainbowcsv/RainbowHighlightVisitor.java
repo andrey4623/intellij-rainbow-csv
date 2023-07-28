@@ -1,6 +1,7 @@
 package com.andrey4623.rainbowcsv;
 
 import com.andrey4623.rainbowcsv.settings.CsvSettings;
+import com.andrey4623.rainbowcsv.settings.CsvSettingsData;
 import com.intellij.codeInsight.daemon.impl.HighlightInfo;
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor;
@@ -33,6 +34,11 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
         }
 
         if (!isEnabled()) {
+            return;
+        }
+
+        if (CsvSettings.getInstance().getMaxLinesToRender() <
+                ((CsvFile) element).getViewProvider().getDocument().getLineCount()) {
             return;
         }
 
