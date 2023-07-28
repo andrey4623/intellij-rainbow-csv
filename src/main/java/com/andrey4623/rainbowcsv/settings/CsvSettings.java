@@ -93,4 +93,12 @@ public class CsvSettings implements PersistentStateComponent<CsvSettingsData> {
     public String getCommentPrefix() {
         return getState().commentPrefix;
     }
+
+    public Integer getMaxLinesToRender() {
+        return getState().maxPageLines;
+    }
+
+    public void setMaxLinesToRender(int maxPageLines) {
+        getState().maxPageLines = maxPageLines;
+    }
 }
