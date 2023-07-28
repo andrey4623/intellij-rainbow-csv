@@ -14,6 +14,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.FileContentUtil;
+
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +37,9 @@ public class Settings implements EditorOptionsProvider {
     private JComboBox escapeCharacterComboBox;
     private JTextField commentPrefixTextField;
     private JCheckBox highlightCommentsCheckBox;
-
+    
+    private JTextField textAttributesSize;
+    
     @Override
     public @NotNull String getId() {
         return "RainbowCSV.Settings";
@@ -54,22 +58,36 @@ public class Settings implements EditorOptionsProvider {
     @Override
     public boolean isModified() {
         CsvSettings settings = CsvSettings.getInstance();
-
+        
         return this.rainbowCSVEnabledCheckBox.isSelected() != settings.isEnabled()
-                || !settings.getDelimiter().equals(this.delimiterComboBox.getSelectedItem())
-                || !settings.getEscapeCharacter().equals(this.escapeCharacterComboBox.getSelectedItem())
+                || !settings.getDelimiter().equals( this.delimiterComboBox.getSelectedItem() )
+                || !settings.getEscapeCharacter().equals( this.escapeCharacterComboBox.getSelectedItem() )
                 || settings.isHighlightComments() != this.highlightCommentsCheckBox.isSelected()
-                || !settings.getCommentPrefix().equals(this.commentPrefixTextField.getText());
+                || !settings.getCommentPrefix().equals( this.commentPrefixTextField.getText() )
+                || !settings.getTextAttributesSize().toString().equals( textAttributesSize.getText() );
     }
 
     @Override
     public void apply() throws ConfigurationException {
+        
+        boolean digits = NumberUtils.isDigits( textAttributesSize.getText() );
+        if ( !digits )
+        {
+            throw new ConfigurationException( "Number of colours must be an integer" );
+        }
+        int size = Integer.parseInt( textAttributesSize.getText() );
+        if ( size > 10 || size < 0 )
+        {
+            throw new ConfigurationException( "Number of colors must be between 0 and 10" );
+        }
+        
         CsvSettings settings = CsvSettings.getInstance();
         settings.setEnabled(rainbowCSVEnabledCheckBox.isSelected());
         settings.setDelimiter((Delimiter) delimiterComboBox.getSelectedItem());
         settings.setEscapeCharacter((EscapeCharacter) escapeCharacterComboBox.getSelectedItem());
         settings.setHighlightComments(highlightCommentsCheckBox.isSelected());
         settings.setCommentPrefix(commentPrefixTextField.getText());
+        settings.setTextAttributesSize( size );
 
         reparseFiles();
     }
@@ -107,6 +125,7 @@ public class Settings implements EditorOptionsProvider {
         escapeCharacterComboBox.setSelectedItem(settings.getEscapeCharacter());
         highlightCommentsCheckBox.setSelected(settings.isHighlightComments());
         commentPrefixTextField.setText(settings.getCommentPrefix());
+        textAttributesSize.setText( settings.getTextAttributesSize().toString() );
     }
 
     protected void createUIComponents() {

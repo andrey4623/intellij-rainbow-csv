@@ -93,4 +93,10 @@ public class CsvSettings implements PersistentStateComponent<CsvSettingsData> {
     public String getCommentPrefix() {
         return getState().commentPrefix;
     }
+    
+    public void setTextAttributesSize(Integer textAttributesSize) {
+        getState().textAttributesSize = textAttributesSize;
+    }
+    public Integer getTextAttributesSize() { return getState().textAttributesSize; }
+
 }

@@ -19,7 +19,9 @@ public class CsvSettingsData {
     public boolean highlightComments = false;
 
     public String commentPrefix = "";
-
+    
+    public Integer textAttributesSize = 10;
+    
     public CsvSettingsData() {
     }
 }

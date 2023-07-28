@@ -11,7 +11,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class RainbowHighlightVisitor implements HighlightVisitor {
@@ -80,10 +79,13 @@ public class RainbowHighlightVisitor implements HighlightVisitor {
             @NotNull Runnable action
     ) {
         this.holder = holder;
-
-        columnTextAttributes = Arrays.stream(RainbowCsvHelper.TEXT_ATTRIBUTES_KEYS)
-                .map(t -> this.holder.getColorsScheme().getAttributes(t))
-                .toArray(TextAttributes[]::new);
+        
+        columnTextAttributes = new TextAttributes[CsvSettings.getInstance().getTextAttributesSize()];
+        for (int i = 0; i < CsvSettings.getInstance().getTextAttributesSize(); i++)
+        {
+            columnTextAttributes[i] = this.holder.getColorsScheme().getAttributes(RainbowCsvHelper.TEXT_ATTRIBUTES_KEYS[i]);
+        }
+        
         commentLineTextAttributes = this.holder.getColorsScheme().getAttributes(
                 RainbowCsvHelper.COMMENT_LINE_TEXT_ATTRIBUTES_KEYS
         );
